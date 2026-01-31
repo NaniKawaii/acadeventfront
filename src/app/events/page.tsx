@@ -37,20 +37,30 @@ async function getEvents() {
 export default async function EventsPage() {
   const events = await getEvents();
   return (
-    <div className="space-y-8">
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-semibold">Catálogo de eventos</h1>
-          <p className="text-muted-foreground">Explora eventos disponibles y filtra por criterios.</p>
+    <div className="space-y-10">
+      <section className="flex flex-wrap items-center justify-between gap-6 rounded-3xl border bg-card p-8 shadow-sm">
+        <div className="space-y-2">
+          <Badge variant="outline" className="bg-primary/10 text-primary">
+            Catálogo institucional
+          </Badge>
+          <h1 className="text-3xl font-semibold">Eventos académicos disponibles</h1>
+          <p className="text-muted-foreground">
+            Filtra por fecha, facultad, modalidad y encuentra experiencias formativas.
+          </p>
         </div>
-        <Button asChild>
-          <Link href="/auth/login">Iniciar sesión</Link>
-        </Button>
-      </div>
+        <div className="flex flex-wrap gap-3">
+          <Button asChild>
+            <Link href="/auth/login">Iniciar sesión</Link>
+          </Button>
+          <Button variant="outline" asChild>
+            <Link href="/dashboard">Mis eventos</Link>
+          </Button>
+        </div>
+      </section>
 
-      <Card>
+      <Card className="border-muted/60 bg-white/80">
         <CardHeader>
-          <CardTitle>Filtros</CardTitle>
+          <CardTitle>Filtros rápidos</CardTitle>
         </CardHeader>
         <CardContent className="grid gap-4 md:grid-cols-4">
           <Input placeholder="Buscar por nombre" />
@@ -79,28 +89,41 @@ export default async function EventsPage() {
       </Card>
 
       {events.length === 0 ? (
-        <div className="rounded-lg border p-6 text-sm text-muted-foreground">
-          No hay eventos disponibles.
+        <div className="rounded-2xl border bg-white/80 p-8 text-center text-sm text-muted-foreground">
+          <div className="text-base font-semibold text-foreground">
+            Aún no hay eventos publicados.
+          </div>
+          <p className="mt-2">
+            Pronto aparecerán las nuevas charlas y talleres de tu facultad.
+          </p>
         </div>
       ) : (
         <div className="grid gap-6 md:grid-cols-3">
           {events.map((event) => {
             const available = event.capacity;
             return (
-              <Card key={event.id} className="flex flex-col">
-                <CardHeader>
+              <Card
+                key={event.id}
+                className="flex flex-col border-muted/60 bg-white/90 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+              >
+                <CardHeader className="space-y-3">
+                  <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+                    <Badge variant="outline" className="bg-muted/60">
+                      {event.modality}
+                    </Badge>
+                    <span>{formatDate(event.startAt)}</span>
+                  </div>
                   <CardTitle className="text-lg">{event.title}</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-2 text-sm text-muted-foreground">
+                <CardContent className="space-y-3 text-sm text-muted-foreground">
                   <div>Facultad: {event.facultyId ?? "—"}</div>
-                  <div>Fecha: {formatDate(event.startAt)}</div>
-                  <Badge variant="outline">{event.modality}</Badge>
-                  <div className="font-medium text-foreground">
-                    Cupos disponibles: {available}
+                  <div className="flex items-center justify-between rounded-lg border bg-muted/40 px-3 py-2 text-sm">
+                    <span>Cupos disponibles</span>
+                    <span className="font-semibold text-foreground">{available}</span>
                   </div>
                 </CardContent>
                 <CardFooter className="mt-auto">
-                  <Button variant="outline" asChild>
+                  <Button variant="outline" asChild className="w-full">
                     <Link href={`/events/${event.id}`}>Ver detalle</Link>
                   </Button>
                 </CardFooter>
