@@ -28,19 +28,34 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div className="min-h-screen bg-background text-foreground">
-          <header className="border-b">
+        <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-100 text-foreground">
+          <header className="sticky top-0 z-40 border-b bg-background/80 backdrop-blur">
             <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-6 py-4">
-              <Link href="/" className="text-lg font-semibold">
-                AcadEvent
-              </Link>
-              <nav className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-                <Link href="/events">Eventos</Link>
-                <Link href="/dashboard">Dashboard</Link>
-                <Link href="/organizer/dashboard">Organizador</Link>
-                <Link href="/admin/dashboard">Admin</Link>
-                <Link href="/scanner">Scanner</Link>
-                <Link href="/notifications">Notificaciones</Link>
+              <div className="flex items-center gap-3">
+                <Link href="/" className="text-lg font-semibold tracking-tight">
+                  AcadEvent
+                </Link>
+                <span className="hidden rounded-full border px-2 py-1 text-xs text-muted-foreground md:inline-flex">
+                  Gestión académica institucional
+                </span>
+              </div>
+              <nav className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+                {[
+                  { href: "/events", label: "Eventos" },
+                  { href: "/dashboard", label: "Dashboard" },
+                  { href: "/organizer/dashboard", label: "Organizador" },
+                  { href: "/admin/dashboard", label: "Admin" },
+                  { href: "/scanner", label: "Scanner" },
+                  { href: "/notifications", label: "Notificaciones" },
+                ].map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="rounded-full px-3 py-1.5 transition hover:bg-muted/70 hover:text-foreground"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
               </nav>
               <div className="flex items-center gap-3">
                 <Link href="/auth/login" className="text-sm font-medium">
@@ -48,14 +63,14 @@ export default function RootLayout({
                 </Link>
                 <Link
                   href="/auth/register"
-                  className="rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground"
+                  className="rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm transition hover:bg-primary/90"
                 >
                   Registrarse
                 </Link>
               </div>
             </div>
           </header>
-          <main className="mx-auto max-w-6xl px-6 py-10">{children}</main>
+          <main className="mx-auto max-w-6xl px-6 py-12">{children}</main>
         </div>
       </body>
     </html>

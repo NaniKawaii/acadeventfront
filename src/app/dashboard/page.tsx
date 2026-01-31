@@ -26,7 +26,7 @@ const certificates = [
 export default function AssistantDashboardPage() {
   return (
     <div className="space-y-8">
-      <div className="flex flex-wrap items-center justify-between gap-4">
+      <section className="flex flex-wrap items-center justify-between gap-6 rounded-3xl border bg-card p-8 shadow-sm">
         <div>
           <h1 className="text-3xl font-semibold">Dashboard del asistente</h1>
           <p className="text-muted-foreground">
@@ -36,33 +36,32 @@ export default function AssistantDashboardPage() {
         <Button asChild>
           <Link href="/events">Explorar eventos</Link>
         </Button>
-      </div>
+      </section>
 
       <div className="grid gap-6 md:grid-cols-3">
-        <Card>
-          <CardHeader>
-            <CardTitle>Eventos inscritos</CardTitle>
-          </CardHeader>
-          <CardContent className="text-3xl font-semibold">2</CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Certificados emitidos</CardTitle>
-          </CardHeader>
-          <CardContent className="text-3xl font-semibold">2</CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Próximo evento</CardTitle>
-          </CardHeader>
-          <CardContent className="text-sm text-muted-foreground">
-            Congreso de Innovación Educativa - 10 Mar
-          </CardContent>
-        </Card>
+        {[
+          { title: "Eventos inscritos", value: "2", detail: "Este semestre" },
+          { title: "Certificados emitidos", value: "2", detail: "Verificados" },
+          {
+            title: "Próximo evento",
+            value: "10 Mar",
+            detail: "Congreso de Innovación Educativa",
+          },
+        ].map((item) => (
+          <Card key={item.title} className="border-muted/60 bg-white/90">
+            <CardHeader>
+              <CardTitle className="text-sm text-muted-foreground">{item.title}</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-2">
+              <div className="text-3xl font-semibold">{item.value}</div>
+              <div className="text-xs text-muted-foreground">{item.detail}</div>
+            </CardContent>
+          </Card>
+        ))}
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
-        <Card>
+        <Card className="border-muted/60 bg-white/90">
           <CardHeader>
             <CardTitle>Mis inscripciones</CardTitle>
           </CardHeader>
@@ -70,7 +69,7 @@ export default function AssistantDashboardPage() {
             {registrations.map((registration) => (
               <div
                 key={registration.id}
-                className="flex flex-wrap items-center justify-between gap-3 rounded-lg border px-4 py-3"
+                className="flex flex-wrap items-center justify-between gap-3 rounded-lg border bg-muted/30 px-4 py-3"
               >
                 <div>
                   <div className="font-medium">{registration.title}</div>
@@ -83,7 +82,7 @@ export default function AssistantDashboardPage() {
             ))}
           </CardContent>
         </Card>
-        <Card>
+        <Card className="border-muted/60 bg-white/90">
           <CardHeader>
             <CardTitle>Mis certificados</CardTitle>
           </CardHeader>
@@ -91,7 +90,7 @@ export default function AssistantDashboardPage() {
             {certificates.map((certificate) => (
               <div
                 key={certificate.id}
-                className="flex flex-wrap items-center justify-between gap-3 rounded-lg border px-4 py-3"
+                className="flex flex-wrap items-center justify-between gap-3 rounded-lg border bg-muted/30 px-4 py-3"
               >
                 <div>
                   <div className="font-medium">{certificate.title}</div>

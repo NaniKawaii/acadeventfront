@@ -58,7 +58,7 @@ export default async function EventDetailPage({ params }: { params: { id: string
   if (!eventDetail) {
     return (
       <div className="space-y-6">
-        <div className="flex flex-wrap items-center justify-between gap-4">
+        <div className="flex flex-wrap items-center justify-between gap-4 rounded-3xl border bg-card p-8 shadow-sm">
           <div className="space-y-2">
             <h1 className="text-3xl font-semibold">Evento no encontrado</h1>
             <p className="text-muted-foreground">
@@ -76,58 +76,83 @@ export default async function EventDetailPage({ params }: { params: { id: string
   const timeRange = `${formatTime(eventDetail.startAt)} - ${formatTime(eventDetail.endAt)}`;
   return (
     <div className="space-y-8">
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <div className="space-y-2">
-          <Badge variant="outline">{eventDetail.modality}</Badge>
-          <h1 className="text-3xl font-semibold">{eventDetail.title}</h1>
-          <p className="text-muted-foreground">{eventDetail.description}</p>
+      <section className="rounded-3xl border bg-card p-8 shadow-sm">
+        <div className="flex flex-wrap items-start justify-between gap-6">
+          <div className="space-y-3">
+            <Badge variant="outline" className="bg-primary/10 text-primary">
+              {eventDetail.modality}
+            </Badge>
+            <h1 className="text-3xl font-semibold">{eventDetail.title}</h1>
+            <p className="text-muted-foreground">{eventDetail.description}</p>
+            <div className="flex flex-wrap gap-3 text-sm text-muted-foreground">
+              <span>Facultad: {eventDetail.facultyId ?? "—"}</span>
+              <span>Fecha: {formatDate(eventDetail.startAt)}</span>
+              <span>Horario: {timeRange}</span>
+            </div>
+          </div>
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <Button asChild>
+              <Link href="/auth/login">Inscribirme</Link>
+            </Button>
+            <Button variant="outline" asChild>
+              <Link href="/events">Volver al catálogo</Link>
+            </Button>
+          </div>
         </div>
-        <div className="flex flex-wrap gap-3">
-          <Button asChild>
-            <Link href="/auth/login">Inscribirme</Link>
-          </Button>
-          <Button variant="outline" asChild>
-            <Link href="/events">Volver al catálogo</Link>
-          </Button>
-        </div>
-      </div>
+      </section>
 
       <div className="grid gap-6 md:grid-cols-3">
-        <Card className="md:col-span-2">
+        <Card className="md:col-span-2 border-muted/60 bg-white/90">
           <CardHeader>
             <CardTitle>Información general</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3 text-sm text-muted-foreground">
-            <div>Facultad: {eventDetail.facultyId ?? "—"}</div>
-            <div>Fecha: {formatDate(eventDetail.startAt)}</div>
-            <div>Horario: {timeRange}</div>
-            <div>Ubicación: {eventDetail.location}</div>
-            <div>Requisitos: {eventDetail.requirements ?? "—"}</div>
+            <div className="flex flex-wrap justify-between gap-2 rounded-lg border bg-muted/30 px-3 py-2">
+              <span>Ubicación</span>
+              <span className="font-medium text-foreground">{eventDetail.location}</span>
+            </div>
+            <div className="flex flex-wrap justify-between gap-2 rounded-lg border bg-muted/30 px-3 py-2">
+              <span>Requisitos</span>
+              <span className="font-medium text-foreground">
+                {eventDetail.requirements ?? "—"}
+              </span>
+            </div>
+            <div className="flex flex-wrap justify-between gap-2 rounded-lg border bg-muted/30 px-3 py-2">
+              <span>Modalidad</span>
+              <span className="font-medium text-foreground">{eventDetail.modality}</span>
+            </div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="border-muted/60 bg-white/90">
           <CardHeader>
-            <CardTitle>Cupos</CardTitle>
+            <CardTitle>Estado de cupos</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-2 text-sm text-muted-foreground">
-            <div>Capacidad total: {eventDetail.capacity}</div>
-            <div className="text-base font-semibold text-foreground">
+          <CardContent className="space-y-4 text-sm text-muted-foreground">
+            <div className="rounded-lg border bg-muted/30 px-3 py-2">
+              Capacidad total: {eventDetail.capacity}
+            </div>
+            <div className="rounded-lg border bg-primary/10 px-3 py-4 text-center text-base font-semibold text-foreground">
               Disponibles: {available}
             </div>
+            <Button variant="outline" asChild className="w-full">
+              <Link href="/auth/login">Gestionar inscripción</Link>
+            </Button>
           </CardContent>
         </Card>
       </div>
 
-      <Card>
+      <Card className="border-muted/60 bg-white/90">
         <CardHeader>
-          <CardTitle>Speakers</CardTitle>
+          <CardTitle>Ponentes</CardTitle>
         </CardHeader>
-        <CardContent className="grid gap-2 text-sm text-muted-foreground md:grid-cols-3">
+        <CardContent className="grid gap-3 text-sm text-muted-foreground md:grid-cols-3">
           {eventDetail.speakers.length === 0 ? (
-            <div className="rounded-lg border px-3 py-2">Sin speakers asignados.</div>
+            <div className="rounded-lg border bg-muted/30 px-3 py-3">
+              Sin ponentes asignados.
+            </div>
           ) : (
             eventDetail.speakers.map((speaker) => (
-              <div key={speaker.id} className="rounded-lg border px-3 py-2">
+              <div key={speaker.id} className="rounded-lg border bg-muted/30 px-3 py-3">
                 {speaker.fullName}
               </div>
             ))

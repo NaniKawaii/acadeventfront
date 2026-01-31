@@ -3,32 +3,29 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 export default function AdminDashboardPage() {
   return (
     <div className="space-y-8">
-      <div>
+      <section className="rounded-3xl border bg-card p-8 shadow-sm">
         <h1 className="text-3xl font-semibold">Panel administrativo</h1>
-        <p className="text-muted-foreground">
-          Supervisión general de eventos, usuarios y facultades.
+        <p className="mt-2 text-muted-foreground">
+          Supervisión general de eventos, usuarios, facultades y métricas institucionales.
         </p>
-      </div>
+      </section>
 
       <div className="grid gap-6 md:grid-cols-3">
-        <Card>
-          <CardHeader>
-            <CardTitle>Facultades</CardTitle>
-          </CardHeader>
-          <CardContent className="text-3xl font-semibold">8</CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Usuarios registrados</CardTitle>
-          </CardHeader>
-          <CardContent className="text-3xl font-semibold">1520</CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Eventos activos</CardTitle>
-          </CardHeader>
-          <CardContent className="text-3xl font-semibold">24</CardContent>
-        </Card>
+        {[
+          { title: "Facultades", value: "8", detail: "Configuradas" },
+          { title: "Usuarios registrados", value: "1,520", detail: "Activos" },
+          { title: "Eventos activos", value: "24", detail: "En curso" },
+        ].map((item) => (
+          <Card key={item.title} className="border-muted/60 bg-white/90">
+            <CardHeader>
+              <CardTitle className="text-sm text-muted-foreground">{item.title}</CardTitle>
+            </CardHeader>
+            <CardContent className="flex items-center justify-between">
+              <span className="text-3xl font-semibold">{item.value}</span>
+              <span className="text-xs text-muted-foreground">{item.detail}</span>
+            </CardContent>
+          </Card>
+        ))}
       </div>
     </div>
   );

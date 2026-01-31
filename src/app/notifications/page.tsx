@@ -21,16 +21,16 @@ const notifications = [
 export default function NotificationsPage() {
   return (
     <div className="space-y-6">
-      <div>
+      <section className="rounded-3xl border bg-card p-8 shadow-sm">
         <h1 className="text-3xl font-semibold">Notificaciones</h1>
-        <p className="text-muted-foreground">
+        <p className="mt-2 text-muted-foreground">
           Historial de alertas y mensajes del sistema.
         </p>
-      </div>
+      </section>
 
       <div className="space-y-4">
         {notifications.map((notification) => (
-          <Card key={notification.id}>
+          <Card key={notification.id} className="border-muted/60 bg-white/90">
             <CardHeader className="flex flex-row items-center justify-between gap-3">
               <CardTitle className="text-base">{notification.title}</CardTitle>
               <Badge variant="outline">{notification.status}</Badge>

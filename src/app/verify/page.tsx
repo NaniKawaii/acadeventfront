@@ -43,7 +43,7 @@ export default function VerifyCertificatePage() {
 
   return (
     <div className="flex justify-center">
-      <Card className="w-full max-w-lg">
+      <Card className="w-full max-w-lg border-muted/60 bg-white/90 shadow-sm">
         <CardHeader>
           <CardTitle>Verificar certificado</CardTitle>
         </CardHeader>
@@ -59,7 +59,7 @@ export default function VerifyCertificatePage() {
           <Button className="w-full" onClick={handleVerify} disabled={loading}>
             {loading ? "Verificando..." : "Verificar"}
           </Button>
-          <div className="rounded-lg border p-4 text-sm text-muted-foreground">
+          <div className="rounded-2xl border bg-muted/30 p-4 text-sm text-muted-foreground">
             {error
               ? `Resultado: ${error}`
               : result
